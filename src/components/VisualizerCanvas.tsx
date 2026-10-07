@@ -4,8 +4,6 @@ import { Columns, Split, Map } from 'lucide-react';
 interface Props {
   original: ImageData;
   processed: ImageData;
-  originalUrl: string;
-  processedUrl: string;
 }
 
 // Fixed chrome inside the side-by-side area (px)
@@ -34,8 +32,6 @@ function computeSplitLayout(cw: number, ch: number, iw: number, ih: number) {
 export const VisualizerCanvas: React.FC<Props> = ({
   original,
   processed,
-  originalUrl,
-  processedUrl,
 }) => {
   const diffRef = useRef<HTMLCanvasElement>(null);
   const areaRef = useRef<HTMLDivElement>(null);

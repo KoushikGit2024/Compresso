@@ -520,8 +520,6 @@ function App() {
                     <VisualizerCanvas
                       original={activeEntry.originalImageData}
                       processed={activeEntry.processedImageData}
-                      originalUrl={activeEntry.previewSrc}
-                      processedUrl={activeEntry.compressedBlobUrl!}
                     />
                   </div>
                 </div>
