@@ -131,15 +131,29 @@ export const ImageEditor: React.FC<ImageEditorProps> = ({
     try {
       const image = imgRef.current!;
       let pixelCrop: { x: number; y: number; width: number; height: number };
+      let activeCrop = completedCrop;
+      if (!activeCrop && crop) {
+        if (crop.unit === '%') {
+          activeCrop = {
+            unit: 'px',
+            x: (crop.x / 100) * image.width,
+            y: (crop.y / 100) * image.height,
+            width: (crop.width / 100) * image.width,
+            height: (crop.height / 100) * image.height,
+          };
+        } else {
+          activeCrop = crop as any;
+        }
+      }
 
-      if (completedCrop && completedCrop.width > 0 && completedCrop.height > 0) {
+      if (activeCrop && activeCrop.width > 0 && activeCrop.height > 0) {
         const scaleX = image.naturalWidth / image.width;
         const scaleY = image.naturalHeight / image.height;
         pixelCrop = {
-          x: completedCrop.x * scaleX,
-          y: completedCrop.y * scaleY,
-          width: completedCrop.width * scaleX,
-          height: completedCrop.height * scaleY,
+          x: activeCrop.x * scaleX,
+          y: activeCrop.y * scaleY,
+          width: activeCrop.width * scaleX,
+          height: activeCrop.height * scaleY,
         };
       } else {
         pixelCrop = { x: 0, y: 0, width: image.naturalWidth, height: image.naturalHeight };

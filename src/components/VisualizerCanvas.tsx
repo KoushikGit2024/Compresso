@@ -66,7 +66,24 @@ export const VisualizerCanvas: React.FC<Props> = ({
         canvas.height = original.height;
         const diffData = new ImageData(original.width, original.height);
         const orig = original.data;
-        const comp = processed.data;
+        
+        let compData = processed;
+        if (processed.width !== original.width || processed.height !== original.height) {
+          const tCanvas = document.createElement('canvas');
+          tCanvas.width = original.width;
+          tCanvas.height = original.height;
+          const tCtx = tCanvas.getContext('2d')!;
+          
+          const pCanvas = document.createElement('canvas');
+          pCanvas.width = processed.width;
+          pCanvas.height = processed.height;
+          pCanvas.getContext('2d')!.putImageData(processed, 0, 0);
+          
+          tCtx.drawImage(pCanvas, 0, 0, original.width, original.height);
+          compData = tCtx.getImageData(0, 0, original.width, original.height);
+        }
+        
+        const comp = compData.data;
 
         for (let i = 0; i < orig.length; i += 4) {
           const diff =
@@ -152,11 +169,16 @@ export const VisualizerCanvas: React.FC<Props> = ({
                 Original (Raw)
               </span>
               <div className="flex-1 min-h-0 flex items-center justify-center w-full">
-                <img
-                  src={originalUrl}
-                  alt="Original"
+                <canvas
+                  ref={(el) => {
+                    if (el) {
+                      el.width = original.width;
+                      el.height = original.height;
+                      el.getContext('2d')?.putImageData(original, 0, 0);
+                    }
+                  }}
                   style={{ width: split.size.width, height: split.size.height }}
-                  className="rounded shadow-sm"
+                  className="rounded shadow-sm max-w-full max-h-full object-contain"
                 />
               </div>
             </div>
@@ -166,11 +188,16 @@ export const VisualizerCanvas: React.FC<Props> = ({
                 Compressed Result
               </span>
               <div className="flex-1 min-h-0 flex items-center justify-center w-full">
-                <img
-                  src={processedUrl}
-                  alt="Processed"
+                <canvas
+                  ref={(el) => {
+                    if (el) {
+                      el.width = processed.width;
+                      el.height = processed.height;
+                      el.getContext('2d')?.putImageData(processed, 0, 0);
+                    }
+                  }}
                   style={{ width: split.size.width, height: split.size.height }}
-                  className="rounded shadow-sm"
+                  className="rounded shadow-sm max-w-full max-h-full object-contain"
                 />
               </div>
             </div>
@@ -180,19 +207,33 @@ export const VisualizerCanvas: React.FC<Props> = ({
             {/* Split Canvas Container */}
             <div className="relative inline-flex items-center justify-center w-full h-full">
               {/* Processed Canvas (Base layer) */}
-              <img
-                src={processedUrl}
-                alt="Processed slider"
+              <canvas
+                ref={(el) => {
+                  if (el) {
+                    el.width = processed.width;
+                    el.height = processed.height;
+                    el.getContext('2d')?.putImageData(processed, 0, 0);
+                  }
+                }}
                 className="w-full h-full object-contain block"
               />
 
               {/* Original Canvas (Clipped overlay using clip-path) */}
-              <img
-                src={originalUrl}
-                alt="Original slider"
-                className="absolute inset-0 w-full h-full object-contain block pointer-events-none"
+              <div 
+                className="absolute inset-0 w-full h-full pointer-events-none"
                 style={{ clipPath: `inset(0 ${100 - sliderPos}% 0 0)` }}
-              />
+              >
+                <canvas
+                  ref={(el) => {
+                    if (el) {
+                      el.width = original.width;
+                      el.height = original.height;
+                      el.getContext('2d')?.putImageData(original, 0, 0);
+                    }
+                  }}
+                  className="w-full h-full object-contain block"
+                />
+              </div>
 
               {/* Vertical Slider Handle */}
               <div
