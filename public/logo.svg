@@ -1,0 +1,33 @@
+<svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <rect width="512" height="512" rx="100" fill="#FFFFFF" />
+  
+  <!-- Outer Boundary (Original Uncompressed Size) -->
+  <rect 
+    x="106" y="106" width="300" height="300" rx="32" 
+    stroke="#CBD5E1" stroke-width="12" stroke-dasharray="24 24" fill="none" 
+  />
+  
+  <!-- Mid Boundary (The "C" Shape / Lossless Stage) -->
+  <path 
+    d="M 346 220 
+       V 190 A 24 24 0 0 0 322 166 
+       H 190 A 24 24 0 0 0 166 190 
+       V 322 A 24 24 0 0 0 190 346 
+       H 322 A 24 24 0 0 0 346 322 
+       V 292"
+    stroke="#64748B" stroke-width="12" stroke-linecap="round" fill="none" 
+  />
+  
+  <!-- Core (Final Compressed Output) -->
+  <rect x="216" y="216" width="80" height="80" rx="16" fill="#10B981" />
+  
+  <!-- Diagonal Compression Vectors -->
+  <path 
+    d="M 120 120 L 180 180 M 180 180 L 180 145 M 180 180 L 145 180" 
+    stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" 
+  />
+  <path 
+    d="M 392 392 L 332 332 M 332 332 L 332 367 M 332 332 L 367 332" 
+    stroke="#10B981" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" 
+  />
+</svg>

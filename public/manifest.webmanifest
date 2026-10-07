@@ -1,0 +1,14 @@
+{
+  "name": "Compresso - Image Compresser",
+  "short_name": "Compresso",
+  "description": "Compress, crop and compare images right in your browser.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#ffffff",
+  "theme_color": "#10b981",
+  "icons": [
+    { "src": "/logo.png", "sizes": "any", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
